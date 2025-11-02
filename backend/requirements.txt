@@ -1,0 +1,3 @@
+/requirements.txt
+/backend/server.py
+/frontend/streamlit_app.py
