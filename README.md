@@ -1,118 +1,189 @@
-🛡️ Secure MQTT Backend (Flask)
-A robust Flask-based backend designed to simulate a Secure MQTT Broker environment. This project focuses on device authentication through certificates and end-to-end message encryption using Symmetric Key Cryptography.
+# 🛡️ Secure MQTT Backend (Flask)
 
-📖 Project Overview
-This system provides a RESTful API to manage IoT device communication. It ensures that messages sent over the "wire" are encrypted, simulating a secure MQTT environment where only authorized devices with the correct keys can decrypt the payload.
+A robust Flask-based backend designed to simulate a **Secure MQTT Broker environment**. This project demonstrates **device authentication using certificates** and **end-to-end encrypted messaging** using symmetric key cryptography.
 
-Live Demo: secure-mqtt-backend-final.onrender.com
+---
 
-Tech Stack: Python, Flask, SQLite, Cryptography (Fernet), Gunicorn.
+## 📖 Project Overview
 
-🛠️ Key Features
-Certificate Generation: Dynamic generation of 32-byte Fernet keys with unique device fingerprints.
+This system provides a **RESTful API** to manage IoT device communication securely.
 
-Secure Messaging: Toggle between insecure (plaintext) and secure (encrypted) modes.
+* Ensures messages sent over the "wire" are **encrypted**
+* Simulates a **secure MQTT communication model**
+* Allows only **authorized devices** to decrypt payloads
 
-Message Logging: Persistent storage of timestamps, topics, and encrypted "wire" data.
+🔗 **Live Demo:** [http://secure-mqtt-backend-final.onrender.com](http://secure-mqtt-backend-final.onrender.com)
 
-Live Decryption: Server-side decryption utility to verify encrypted payloads.
+---
 
-Cloud Optimized: Fully configured for deployment on Render with dynamic port binding and SSL termination.
+## 🧰 Tech Stack
 
-🚀 Getting Started
-1. Installation
-Clone the repository and install the required dependencies:
+* **Backend:** Python, Flask
+* **Database:** SQLite
+* **Encryption:** Cryptography (Fernet)
+* **Server:** Gunicorn
+* **Deployment:** Render
+
+---
+
+## 🛠️ Key Features
+
+### 🔐 Certificate Generation
+
+* Generates **32-byte Fernet keys** dynamically
+* Assigns unique **device fingerprints**
+
+### 📡 Secure Messaging
+
+* Supports **plaintext (insecure)** and **encrypted (secure)** modes
+* Simulates real-world IoT communication scenarios
+
+### 🗂️ Message Logging
+
+* Stores:
+
+  * Timestamps
+  * Topics
+  * Encrypted "wire" payloads
+
+### 🔍 Live Decryption Utility
+
+* Decrypt messages server-side for verification
+* Helps debug and validate encryption flow
+
+### ☁️ Cloud Optimized
+
+* Ready for deployment on **Render**
+* Supports:
+
+  * Dynamic port binding
+  * SSL termination
+
+---
+
+## 🚀 Getting Started
+
+### 1️⃣ Installation
+
+Clone the repository and install dependencies:
+
+```bash
 git clone https://github.com/your-username/secure-mqtt-backend.git
 cd secure-mqtt-backend
 pip install -r requirements.txt
-2. Local Development
-To run the server locally with a test certificate:
+```
 
-Bash
+---
+
+### 2️⃣ Local Development
+
+Run the Flask server locally:
+
+```bash
 python app.py
-The server will be available at (https://enhancingiotsecurityfinal-rz7vw6rnncvt2omyxyuh4w.streamlit.app/).
+```
 
-3. Production Deployment
-This app is ready for Render. Use the following settings:
+Server will run at:
+👉 [http://localhost:5000](http://localhost:5000)
 
-Build Command: pip install -r requirements.txt
+---
 
-Start Command: gunicorn app:app
+### 3️⃣ Production Deployment (Render)
 
-📡 API Reference
-Certificates
-Endpoint	Method	Description		
-/generate_cert	POST	Create a new device key/fingerprint.		
-/certs	GET	Retrieve all registered certificates.	
-Gemini said
-Since you are moving your project to GitHub, your README should serve as both a manual for others and a portfolio piece for you.
+Use the following configuration:
 
-Here is a professionally formatted, copy-paste ready README.md file. I've structured it to highlight your work with Embedded Systems and Security Algorithms, which aligns with your background in Computer Science.
+* **Build Command:**
 
-🛡️ Secure MQTT Backend (Flask)
-A robust Flask-based backend designed to simulate a Secure MQTT Broker environment. This project focuses on device authentication through certificates and end-to-end message encryption using Symmetric Key Cryptography.
-
-📖 Project Overview
-This system provides a RESTful API to manage IoT device communication. It ensures that messages sent over the "wire" are encrypted, simulating a secure MQTT environment where only authorized devices with the correct keys can decrypt the payload.
-
-Live Demo: secure-mqtt-backend-final.onrender.com
-
-Tech Stack: Python, Flask, SQLite, Cryptography (Fernet), Gunicorn.
-
-🛠️ Key Features
-Certificate Generation: Dynamic generation of 32-byte Fernet keys with unique device fingerprints.
-
-Secure Messaging: Toggle between insecure (plaintext) and secure (encrypted) modes.
-
-Message Logging: Persistent storage of timestamps, topics, and encrypted "wire" data.
-
-Live Decryption: Server-side decryption utility to verify encrypted payloads.
-
-Cloud Optimized: Fully configured for deployment on Render with dynamic port binding and SSL termination.
-
-🚀 Getting Started
-1. Installation
-Clone the repository and install the required dependencies:
-
-Bash
-git clone https://github.com/your-username/secure-mqtt-backend.git
-cd secure-mqtt-backend
+```bash
 pip install -r requirements.txt
-2. Local Development
-To run the server locally with a test certificate:
+```
 
-Bash
-python app.py
-The server will be available at http://localhost:5000.
+* **Start Command:**
 
-3. Production Deployment
-This app is ready for Render. Use the following settings:
+```bash
+gunicorn app:app
+```
 
-Build Command: pip install -r requirements.txt
+---
 
-Start Command: gunicorn app:app
+## 📡 API Reference
 
-📡 API Reference
-Certificates
-Endpoint	Method	Description
-/generate_cert	POST	Create a new device key/fingerprint.
-/certs	GET	Retrieve all registered certificates.
-Messaging
-Endpoint	Method	Description
-/send	POST	Send a message (requires topic, payload, mode).
-/messages	GET	View message history (supports limit param).
-/decrypt	POST	Decrypt a specific "wire" payload using a cert name.
-🔐 Security Implementation
-The project uses the Fernet implementation of symmetric encryption.
+### 🔐 Certificates
 
-Encryption: AES-128 in CBC mode with PKCS7 padding.
+| Endpoint         | Method | Description                          |
+| ---------------- | ------ | ------------------------------------ |
+| `/generate_cert` | POST   | Create a new device key/fingerprint  |
+| `/certs`         | GET    | Retrieve all registered certificates |
 
-Authentication: HMAC with SHA256 to ensure message integrity.
+---
 
-📂 Project Structure
-Plaintext
-├── app.py              # Main Flask application logic
+### 📩 Messaging
+
+| Endpoint    | Method | Description                                    |
+| ----------- | ------ | ---------------------------------------------- |
+| `/send`     | POST   | Send a message (topic, payload, mode required) |
+| `/messages` | GET    | Retrieve message history (supports `limit`)    |
+| `/decrypt`  | POST   | Decrypt payload using certificate              |
+
+---
+
+## 🔐 Security Implementation
+
+This project uses **Fernet symmetric encryption**, which provides both confidentiality and integrity.
+
+* **Encryption Algorithm:** AES-128 (CBC mode)
+* **Padding:** PKCS7
+* **Authentication:** HMAC with SHA-256
+
+✔ Ensures:
+
+* Data confidentiality
+* Message integrity
+* Protection against tampering
+
+---
+
+## 📂 Project Structure
+
+```
+secure-mqtt-backend/
+│
+├── app.py              # Main Flask application
 ├── data.db             # SQLite database (auto-generated)
-├── requirements.txt    # Python dependencies
-├── certs/              # Local SSL directory (optional)
-└── README.md           # Project documentation
+├── requirements.txt    # Dependencies
+├── certs/              # Optional SSL certificates
+└── README.md           # Documentation
+```
+
+---
+
+## 🌟 Highlights
+
+* Combines **IoT + Security + Backend Engineering**
+* Demonstrates **real-world encryption workflows**
+* Ideal for:
+
+  * Academic projects
+  * Portfolio showcasing
+  * Learning secure system design
+
+---
+
+## 📌 Future Improvements
+
+* Add MQTT broker integration (Mosquitto)
+* Implement device-level access control (ACL)
+* Add JWT-based API authentication
+* Build frontend dashboard for visualization
+
+---
+
+## 👨‍💻 Author
+
+**Abhay Kumar**
+
+---
+
+## 📜 License
+
+This project is open-source and available under the MIT License.
