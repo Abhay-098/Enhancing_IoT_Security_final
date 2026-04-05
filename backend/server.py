@@ -4,7 +4,9 @@ import sqlite3, os, base64
 from datetime import datetime
 from cryptography.fernet import Fernet
 
+# Configuration
 DB = 'data.db'
+# We keep CERT_DIR for local testing, but Render won't use it
 CERT_DIR = 'certs'
 os.makedirs(CERT_DIR, exist_ok=True)
 
@@ -18,10 +20,16 @@ def init_db():
 
 init_db()
 app = Flask(__name__)
+# On live backends, it's safer to specify your frontend URL in CORS, 
+# but CORS(app) allows all for testing.
 CORS(app)
 
 def now_ts():
     return datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+
+@app.route('/')
+def health_check():
+    return jsonify({"status": "online", "message": "Secure MQTT Backend is running"})
 
 @app.route('/generate_cert', methods=['POST'])
 def generate_cert():
@@ -102,11 +110,22 @@ def decrypt_message():
         return jsonify({'status':'error','error':str(e)}),400
 
 if __name__ == '__main__':
-    cert_path = os.path.join(CERT_DIR,'server.crt')
-    key_path = os.path.join(CERT_DIR,'server.key')
-    if os.path.exists(cert_path) and os.path.exists(key_path):
-        print('Starting server with HTTPS...')
-        app.run(host='0.0.0.0', port=5000, ssl_context=(cert_path,key_path))
+    # 1. Get port from environment (Render requirement)
+    port = int(os.environ.get('PORT', 5000))
+    
+    # 2. Check if we are running on a cloud environment like Render
+    # Render provides a RENDER env var by default.
+    if os.environ.get('RENDER'):
+        print(f"Running on Render on port {port}")
+        app.run(host='0.0.0.0', port=port)
     else:
-        print('Starting server WITHOUT TLS (HTTP)...')
-        app.run(host='0.0.0.0', port=5000)
+        # Local development logic
+        cert_path = os.path.join(CERT_DIR, 'server.crt')
+        key_path = os.path.join(CERT_DIR, 'server.key')
+        
+        if os.path.exists(cert_path) and os.path.exists(key_path):
+            print(f'Starting LOCAL server with HTTPS on port {port}...')
+            app.run(host='0.0.0.0', port=port, ssl_context=(cert_path, key_path))
+        else:
+            print(f'Starting LOCAL server WITHOUT TLS on port {port}...')
+            app.run(host='0.0.0.0', port=port)
